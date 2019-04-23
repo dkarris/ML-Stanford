@@ -96,7 +96,7 @@ LAYER_3 = LAYER_3'; % to flip where our rows become training sets and columns - 
 % unregularized
 temp_cost = 0;
 for i=1:m
-    for k=1:10
+    for k=1:num_labels
         temp_cost = temp_cost + y_matrix(i,k)*log(LAYER_3(i,k)) + (1-y_matrix(i,k))*log(1-LAYER_3(i,k));
     end
 end
@@ -112,16 +112,35 @@ J = temp_cost + reg_part;
 % DK ----------------------
 
 % DK  Start Backpropagation algorithm with for loop
-
+D2= 0;
+D1 = 0;
 
 for t=1:m
-    a_1 = X(t,:);
-    a_2 = sigmoid(a_1*Theta1')';
+    
+	a_1 = X(t,:)';
+    z_2 = Theta1*a_1;
+	a_2 = sigmoid(z_2);
     a_2 = [1;a_2];
-    a_3 = sigmoid(a_2*Theta2')';
-    y_binary = (1:10)' == y(t);
-
+    a_3 = sigmoid(Theta2*a_2); %forward propagation complete
+    
+	y_binary = (1:num_labels)' == y(t); % convert y(t) into binary vector smth like [0;0;0;1;0;0;0...])
+	
+	% Layer 2
+	delta_3 = a_3-y_binary;
+	D2 = D2 + delta_3*(a_2)';
+	
+	
+	% Layer 1
+	delta_2 = (Theta2(:,2:end))'*delta_3 .*  sigmoidGradient(z_2);
+	D1 = D1 + delta_2*(a_1)';
+	
+	% delta 1 and D1
+	delta_1 = (Theta1(:,2:end)'*delta_2) .* sigmoidGradient(a_1(2:end));
+	
 end
+
+Theta1_grad = D2/m;
+Theta1_grad = D1/m;
 
 % -------------------------------------------------------------
 
