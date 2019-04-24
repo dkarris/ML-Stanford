@@ -93,7 +93,7 @@ LAYER_3 = LAYER_3'; % to flip where our rows become training sets and columns - 
 % DK - cost function - for loop
 
 
-% unregularized
+% unregularizedclc
 temp_cost = 0;
 for i=1:m
     for k=1:num_labels
@@ -103,7 +103,10 @@ end
 temp_cost = -temp_cost/m;
 
 % regularied part
-reg_part = (sum(Theta1(2:end,:)(:) .^ 2) + sum(Theta2(2:end,:)(:) .^ 2))*lambda/(2*m);
+
+reg_part = (sum(Theta1(:,2:end)(:) .^ 2) + sum(Theta2(:,2:end)(:) .^ 2))*lambda/(2*m); 
+
+
 % end regularized
 J = temp_cost + reg_part;
 % DK - end cost function for loop
@@ -139,14 +142,28 @@ for t=1:m
 	
 end
 
-Theta1_grad = D2/m;
-Theta1_grad = D1/m;
+Theta1_grad = D1/m + [zeros(size(D1,1),1) Theta1(:,2:end)] * lambda/m;
+Theta2_grad = D2/m + [zeros(size(D2,1),1) Theta2(:,2:end)] * lambda/m;
+
+
 
 % -------------------------------------------------------------
 
+
+% Regularization for gradient
+
+
+
+
+
+
 % =========================================================================
 
-% Unroll gradients
+
+
+
+
+% Unroll gradientsgrad
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 
