@@ -192,7 +192,7 @@ for i = 1:m
     fprintf('  \t%d\t\t%f\t%f\n', i, error_train(i), error_val(i));
 end
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Program paused. Press enter to continue!!!!!!!!!!!.\n');
 pause;
 
 %% =========== Part 8: Validation for Selecting Lambda =============
