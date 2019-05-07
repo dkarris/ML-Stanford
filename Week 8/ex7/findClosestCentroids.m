@@ -9,6 +9,7 @@ function idx = findClosestCentroids(X, centroids)
 K = size(centroids, 1);
 
 % You need to return the following variables correctly.
+
 idx = zeros(size(X,1), 1);
 
 % ====================== YOUR CODE HERE ======================
@@ -23,9 +24,26 @@ idx = zeros(size(X,1), 1);
 
 
 
+% DK Method 1
 
+%{
+for i=1:size(idx)
+	[min_dummy idx(i)] = min(sum((X(i,:) - centroids) .^2,2));
+end
+%}
 
+% DK Method 1 end
 
+% DK  Method 2
+
+distance_matrix = zeros(size(idx),K);
+for i=1:K
+	distance_matrix(:,i) = sum((X - centroids(i,:)) .^2,2);
+end
+
+[dummy idx] = min(distance_matrix,[],2);
+
+% DK Method 2 end
 
 % =============================================================
 
